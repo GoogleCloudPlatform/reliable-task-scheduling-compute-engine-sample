@@ -1,0 +1,5 @@
+cron:
+- description: test task
+  url: /events/test
+  schedule: every 1 minutes
+
