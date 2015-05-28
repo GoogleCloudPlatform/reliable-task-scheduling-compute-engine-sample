@@ -9,7 +9,7 @@ reliably schedule tasks across a fleet of Compute Engine instances.
 
 This sample illustrates how to build a solution. For a full description of
 the design pattern used in this sample, see
-[Reliably Schedule Tasks on Google Compute Engine](http://cloud.google.com/solutions/reliably-schedule-compute-engine).
+[Reliably Schedule Tasks on Google Compute Engine](http://cloud.google.com/solutions/reliable-task-scheduling-compute-engine).
 
 ## About the sample
 
