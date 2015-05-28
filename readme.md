@@ -1,39 +1,39 @@
-# Sample: Durably Schedule Tasks on Google Compute Engine
+# Sample: Reliable Task Scheduling on Google Compute Engin
 In distributed systems, such as a network of Google Compute Engine
-instances, it is challenging to durably schedule tasks because any individual
+instances, it is challenging to reliably schedule tasks because any individual
 instance may become unavailable due to autoscaling or network partitioning.
 
 Google AppEngine provides a Cron service. Using this service for scheduling and
 Google Cloud Pub/Sub for distributed messaging, you can build an application to
-durably schedule tasks across a fleet of Compute Engine instances.
+reliably schedule tasks across a fleet of Compute Engine instances.
 
-This sample illustrates how to build this solution. For a full description of
+This sample illustrates how to build a solution. For a full description of
 the design pattern used in this sample, see
-[Durably Schedule Tasks on Google Compute Engine](http://cloud.google.com/solutions/durable-scheduling).
+[Reliably Schedule Tasks on Google Compute Engine](http://cloud.google.com/solutions/reliably-schedule-compute-engine).
 
 ## About the sample
 
 This sample contains two components:
 
-* An App Engine application, `duracron`, that uses App Engine Cron Service
+* An App Engine application, that uses App Engine Cron Service
     to relay cron messages to Cloud Pub/Sub topics.
 
 * A utility that runs on Compute Engine. This utility monitors a Cloud Pub/Sub
     topic. When it detects a new message, it runs the corresponding command
     locally on the server.
 
-You specify the cron messages to send in the `cron.yaml` file of the `duracron`
+You specify the cron messages to send in the `cron.yaml` file of the App Engine
 application. This file is written in
 [YAML format](http://cloud.google.com/appengine/docs/python/config/cron#Python_app_yaml_About_cron_yaml).
-The `duracron` application uses the final path component of the event-handler
+The App Engine application uses the final path component of the event-handler
 URL as the name of the corresponding Cloud Pub/Sub topic. For example, if an
 event handler is specified as `url: /events/test`, the Cloud Pub/Sub topic name
 is `test`.
 
-When the Cron Service fires a scheduled event, the `duracron` App Engine
+When the Cron Service fires a scheduled event, the App Engine
 application handles the request and passes the cron message to the corresponding
 Cloud Pub/Sub topic. If the specified Cloud Pub/Sub topic does not exist,
-`duracron` creates it.
+the App Engine application creates it.
 
 The utility running on the Compute Engine instances receives cron messages from
 Cloud Pub/Sub and runs the specified commands that are normally run by cron. To
@@ -101,7 +101,7 @@ Platform. To estimate the cost of running this tutorial:
       15 minutes of one day while you test the sample. After which, you delete
       the project, releasing all resources.
       That's <b>0.25 hours per month</b>.</li>
-  <li>For Google App Engine costs, assume that the 'duracron' application
+  <li>For Google App Engine costs, assume that the App Engine application
       runs on a single instance for 15 minutes. This results in 1 instance hour,
       or a rate of <b>.00014 instances per hour</b> averaged over a month.</li>
 </ul>
@@ -120,7 +120,7 @@ To clone the GitHub repository to your computer, run the following command:
 ### Specify cron jobs
 
 App Engine Cron Service job descriptions are specified in `cron.yaml`, a file in
-the `duracron` application. You define tasks for App Engine Task Scheduler
+the App Engine application. You define tasks for App Engine Task Scheduler
 in [YAML format](http://yaml.org/). The following example
 shows this syntax.
 
@@ -134,12 +134,12 @@ including the schedule format, see
 [Scheduled Tasks with Cron for Python](https://cloud.google.com/appengine/docs/python/config/cron#Python_app_yaml_The_schedule_format).
 
 Note: If you choose to modify this sample to use your own cron jobs, update the
-`cron.yaml` file with your job descriptions and then re-deploy the `duracron`
+`cron.yaml` file with your job descriptions and then re-deploy the
 application to update this file on App Engine.
 
-### Upload `duracron` to App Engine
+### Upload the application to App Engine
 
-In order for the `duracron` application to schedule and handle your events,
+In order for the App Engine application to schedule and handle your events,
 you must upload it to a Developers Console project. This is the project
 that you created in **Prerequisites**.
 
@@ -158,15 +158,11 @@ that you created in **Prerequisites**.
         $ cd durable-scheduling-sample
 
 
-3. Edit the `./gae/app.yaml` file to change the first line from:
-
-        application: duracron
-
-    to:
+3. Edit the `./gae/app.yaml` file to change the first line:
 
         application: <your-project-id>
 
-    Where you replace `<your-project-id>`  with the identifier of your cloud project.
+    Replace `<your-project-id>`  with the identifier of your cloud project.
 
 4. Include the Python API client in your App Engine application.
 
@@ -183,9 +179,9 @@ that you created in **Prerequisites**.
         $ gcloud preview app deploy --version=1 gae/app.yaml \
           gae/cron.yaml
 
-After you deploy `duracron`, it uses the App Engine Cron Service to schedule
-sending messages to Cloud Pub/Sub. If a Cloud Pub/Sub topic specified in
-`yaml.cron` does not exist, the application creates it.
+After you deploy the App Engine application it uses the App Engine Cron Service
+to schedule sending messages to Cloud Pub/Sub. If a Cloud Pub/Sub topic
+specified in `yaml.cron` does not exist, the application creates it.
 
 ### How Cloud Pub/Sub subscriptions are specified
 

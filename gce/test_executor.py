@@ -28,7 +28,7 @@ import sys
 from cloud_handler import CloudLoggingHandler
 from cron_executor import Executor
 
-PROJECT = 'duracron'  # change this to match your project
+PROJECT = 'your-project-id'  # change this to match your project
 TOPIC = 'test'
 
 script_path = os.path.abspath(os.path.join(os.getcwd(), 'logger_sample_task.py'))
