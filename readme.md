@@ -81,18 +81,18 @@ The process for configuring and running this sample is as follows:
         * Google Cloud Pub/Sub
         * Google Compute Engine
 
-* [Download and install the Google Cloud SDK](http://cloud.google.com/sdk/).
+* Install [`git`](https://git-scm.com/downloads).
 
 * Install [Python 2.7](https://www.python.org/download/releases/2.7/).
 
 * Install [Python `pip`](https://pip.pypa.io/en/latest/installing.html).
 
+* [Download and install the Google Cloud SDK](http://cloud.google.com/sdk/).
+
 * Install the Google App Engine SDK for Python on your development machine. You can use
     the command-line `gcloud` tool provided in the Google Cloud SDK to do this:
 
         $ gcloud components update gae-python
-
-* Install [`git`](https://git-scm.com/downloads).
 
 Important: This tutorial uses several billable components of Google Cloud
 Platform. To estimate the cost of running this tutorial:
@@ -122,7 +122,7 @@ To clone the GitHub repository to your computer, run the following command:
 App Engine Cron Service job descriptions are specified in `cron.yaml`, a file in
 the App Engine application. You define tasks for App Engine Task Scheduler
 in [YAML format](http://yaml.org/). The following example
-shows this syntax.
+shows the syntax.
 
     cron:
       - description: <description of the job>
@@ -133,13 +133,9 @@ For a complete description of how to use YAML to specify jobs for Cron Service,
 including the schedule format, see
 [Scheduled Tasks with Cron for Python](https://cloud.google.com/appengine/docs/python/config/cron#Python_app_yaml_The_schedule_format).
 
-Note: If you choose to modify this sample to use your own cron jobs, update the
-`cron.yaml` file with your job descriptions and then re-deploy the
-application to update this file on App Engine.
-
 ### Upload the application to App Engine
 
-In order for the App Engine application to schedule and handle your events,
+In order for the App Engine application to schedule and relay your events,
 you must upload it to a Developers Console project. This is the project
 that you created in **Prerequisites**.
 
@@ -186,7 +182,7 @@ specified in `yaml.cron` does not exist, the application creates it.
 ### How Cloud Pub/Sub subscriptions are specified
 
 The utility running on a Compute Engine instance monitors a set of Cloud Pub/Sub
-topics and runs commands on that instance each time it receives a message.
+topic subscriptions and runs commands on that instance each time it receives a message.
 By configuring which topics the utility monitors, you can control the tasks that
 run on each instance. Separating the scheduling logic from the utility logic
 using Cloud Pub/Sub messaging gives you the ability to schedule all of your
@@ -252,15 +248,11 @@ directory.
           --zone us-central1-a
 
 
-3. Edit `gce/test_executor.py` to change the project constant from:
-
-        PROJECT = 'duracron'
-
-    to:
+3. Edit `gce/test_executor.py` to change the project constant:
 
         PROJECT = 'your-project-id'
 
-    Where you replace `your-project-id` with the identifier of your cloud project.
+    Replace `your-project-id` with the identifier of your cloud project.
 
 4. Copy the utility script files to the new instance.
 
