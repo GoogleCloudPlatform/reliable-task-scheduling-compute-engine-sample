@@ -54,7 +54,7 @@ This sample includes the reusable wrapper code of the utility, an example of its
 use, and a sample script that it runs.
 
 ## How to run the sample
-The process for configuring and running this sample is as follows:
+The overview for configuring and running this sample is as follows:
 
 1. Create a project and other cloud resources.
 2. Clone or download the sample code.
@@ -81,6 +81,8 @@ The process for configuring and running this sample is as follows:
         * Google Cloud Pub/Sub
         * Google Compute Engine
 
+Ensure that the following is installed if not already on your system:
+
 * Install [`git`](https://git-scm.com/downloads).
 
 * Install [Python 2.7](https://www.python.org/download/releases/2.7/).
@@ -95,7 +97,7 @@ The process for configuring and running this sample is as follows:
         $ gcloud components update gae-python
 
 Important: This tutorial uses several billable components of Google Cloud
-Platform. To estimate the cost of running this tutorial:
+Platform. To estimate the cost of running this sample:
 <ul>
   <li>Assume the utility runs on a single `f1-micro` Google Compute Instance for
       15 minutes of one day while you test the sample. After which, you delete
@@ -115,11 +117,17 @@ users may be eligible for a [free trial](http://cloud.google.com/free-trial).
 
 To clone the GitHub repository to your computer, run the following command:
 
-    $ git clone https://github.com/GoogleCloudPlatform/durable-scheduling-sample
+    $ git clone https://github.com/GoogleCloudPlatform/reliable-task-scheduling-compute-engine-sample
+
+Change directories to the `reliable-task-scheduling-compute-engine-sample` directory. The exact path
+depends on where you placed the directory when you cloned the sample files from
+GitHub.
+
+    $ cd reliable-task-scheduling-compute-engine-sample
 
 ### Specify cron jobs
 
-App Engine Cron Service job descriptions are specified in `cron.yaml`, a file in
+App Engine Cron Service job descriptions are specified in `gae/cron.yaml`, a file in
 the App Engine application. You define tasks for App Engine Task Scheduler
 in [YAML format](http://yaml.org/). The following example
 shows the syntax.
@@ -132,6 +140,8 @@ shows the syntax.
 For a complete description of how to use YAML to specify jobs for Cron Service,
 including the schedule format, see
 [Scheduled Tasks with Cron for Python](https://cloud.google.com/appengine/docs/python/config/cron#Python_app_yaml_The_schedule_format).
+
+Leave the default cron.yaml as is for now to run through the sample.
 
 ### Upload the application to App Engine
 
@@ -147,30 +157,20 @@ that you created in **Prerequisites**.
     Where you replace `<your-project-id>`  with the identifier of your cloud
     project.
 
-
-2. Change directories to the `durable-scheduling-sample` directory. The exact path depends on where
-    you placed the directory when you cloned the sample files from GitHub.
-
-        $ cd durable-scheduling-sample
-
-
-3. Edit the `./gae/app.yaml` file to change the first line:
-
-        application: <your-project-id>
-
-    Replace `<your-project-id>`  with the identifier of your cloud project.
-
-4. Include the Python API client in your App Engine application.
+2. Include the Python API client in your App Engine application.
 
         $ pip install -t gae/lib/ google-api-python-client
 
+    Note: if you get an error and are using a Brew installed Python on OS X,
+    see [this fix](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Homebrew-and-Python.md#note-on-pip-install---user).
 
-5. Install the app component of `gcloud`.
+
+3. Install the app component of `gcloud`.
 
         $ gcloud components update app
 
 
-6. Deploy the application to App Engine.
+4. Deploy the application to App Engine.
 
         $ gcloud preview app deploy --version=1 gae/app.yaml \
           gae/cron.yaml
@@ -178,6 +178,14 @@ that you created in **Prerequisites**.
 After you deploy the App Engine application it uses the App Engine Cron Service
 to schedule sending messages to Cloud Pub/Sub. If a Cloud Pub/Sub topic
 specified in `yaml.cron` does not exist, the application creates it.
+
+You can see the cron jobs under in the console under:
+
+Compute > App Engine > Task queues > Cron Jobs
+
+You can also see the auto-created topic (after about a minute) in the console:
+
+Big Data > Pub/Sub
 
 ### How Cloud Pub/Sub subscriptions are specified
 
@@ -203,7 +211,7 @@ If you only need the utility to monitor a single topic, you can simply change
 the value of `TOPIC` in this script. To have the utility monitor multiple topics,
 you need to instantiate multiple `Executor` objects.
 
-For your first time running the sample, leave `TOPIC` set to `'test'` so you can
+For this runthrough of the sample, leave `TOPIC` set to `'test'` so you can
 verify your results as described in the following sections.
 
 
@@ -233,22 +241,17 @@ possible, install the utility script on each instance where
 you want durable cron jobs to run. The script files are in the `gce`
 directory.
 
-1. Change to the `durable-scheduling-sample` directory. The exact path depends on where
-    you placed the directory when you cloned the sample files from GitHub.
 
-        $ cd durable-scheduling-sample
-
-
-2. Create a Compute Engine instance with Cloud Pub/Sub scope. In the following
+1. Create a Compute Engine instance with Cloud Pub/Sub scope. In the following
     example, the instance name is `cronworker`.
 
         $  gcloud compute instances create cronworker \
           --machine-type f1-micro \
-          --scopes https://www.googleapis.com/auth/pubsub \
+          --scopes https://www.googleapis.com/auth/pubsub,https://www.googleapis.com/auth/logging.write \
           --zone us-central1-a
 
 
-3. Edit `gce/test_executor.py` to change the project constant:
+2. Edit `gce/test_executor.py` to change the project constant:
 
         PROJECT = 'your-project-id'
 
@@ -319,9 +322,11 @@ Viewer for Google Compute Engine.
     **Compute Engine**.
 
 4. Expand the dropdown box displaying **All Logs**, and select
-    **sample_logger_task** to display the output of the scheduled task running
+    **task_runner** to display the logged messages from the executor utility,
+    and **test_sample_task_task** to display the output of the sample task running
     on the Compute Engine instance.
 
+You can also see the topic in the Pub/Sub console now lists the subscription.
 
 ### Clean up
 
@@ -338,40 +343,9 @@ prevent further billing for them on your account.
     in the Google App Engine documentation.
 
 
-* Delete the Cloud Pub/Sub subscriptions. Delete subscriptions
-    before you delete the topic to which they subscribe. If you delete the topic
-    first, any subscriptions to that topic are assigned to a placeholder topic
-    `_deleted-topic_`. You can use the
-    [APIs Explorer](https://developers.google.com/apis-explorer/#p/pubsub/v1beta2/pubsub.projects.subscriptions.delete)
-    to delete Cloud Pub/Sub subscriptions.
-
-    1. In the **subscription** textbox, enter
-      `projects/<my-project-id>/subscriptions/test_sample_task_task`, where
-      `<my-project-id>` is the project identifier for the project you
-      created in the Prerequisites(#prerequisites) and
-      `test_sample_task_task` is the name of the subscription created in
-      the utility.
-
-    2. Toggle the box next to **Authorize requests using OAuth 2.0** to
-       **On**.
-
-    3. Click **Execute**.
-
-
-* Delete the Cloud Pub/Sub topics. You can use the
-    [APIs Explorer](https://developers.google.com/apis-explorer/#p/pubsub/v1beta2/pubsub.projects.topics.delete)
-    to do this.
-
-    1. In the **topic** textbox, enter
-	`projects/<my-project-id>/topics/test`, where
-    `<my-project-id>` is the project identifier for your project and
-	`test` is the
-    name of the topic created for the cron job specified in `cron.yaml`.
-
-    2. Toggle the box next to **Authorize requests using OAuth 2.0** to
-            **On**.
-
-    3. Click **Execute**.
+* Delete the Cloud Pub/Sub topic.
+    You can delete the topic and associated subscriptions from the Pub/Sub
+    section of the console.
 
 
 ##License:
