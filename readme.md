@@ -161,7 +161,7 @@ that you created in **Prerequisites**.
 
         $ pip install -t gae/lib/ google-api-python-client
 
-    Note: if you get an error and are using a Brew installed Python on OS X,
+    Note: if you get an error and used Homebrew to install Python on OS X,
     see [this fix](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Homebrew-and-Python.md#note-on-pip-install---user).
 
 
@@ -313,7 +313,7 @@ The utility script records its activity using Google Cloud Logging. After a cron
 job has had time to run, you can view the `stdout` output of the job in the Logs
 Viewer for Google Compute Engine.
 
-1. Open [Developers Console](https://console.developers.google.com) and select your project from the
+1. Open the [Developers Console](https://console.developers.google.com) and select your project from the
     list.
 
 2. From the navigational menu, select **Monitoring > Logs**.
@@ -344,8 +344,8 @@ prevent further billing for them on your account.
 
 
 * Delete the Cloud Pub/Sub topic.
-    You can delete the topic and associated subscriptions from the Pub/Sub
-    section of the console.
+    You can delete the topic and associated subscriptions from the Cloud Pub/Sub
+    section of the [Developers Console](https://console.developers.google.com).
 
 
 ##License:
