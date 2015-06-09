@@ -1,4 +1,4 @@
-# Sample: Reliable Task Scheduling on Google Compute Engin
+# Sample: Reliable Task Scheduling on Google Compute Engine
 In distributed systems, such as a network of Google Compute Engine
 instances, it is challenging to reliably schedule tasks because any individual
 instance may become unavailable due to autoscaling or network partitioning.
