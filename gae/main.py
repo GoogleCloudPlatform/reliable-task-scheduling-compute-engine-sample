@@ -29,7 +29,7 @@ class MainHandler(webapp2.RequestHandler):
 class CronEventHandler(webapp2.RequestHandler):
     def get(self):
         topic_name = self.request.path.split(EVENTS_PREFIX)[-1]
-        publish_to_topic(topic_name)
+        publish_to_topic(topic_name, msg='test')
         self.response.status = 204
 
 
