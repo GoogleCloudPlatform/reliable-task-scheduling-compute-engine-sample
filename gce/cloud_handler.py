@@ -23,7 +23,7 @@ from threading import Thread
 from apiclient import discovery
 
 import httplib2
-import oauth2client.gce as gce_oauth2client
+import oauth2client.contrib.gce as gce_oauth2client
 
 LOGGING_SCOPES = ["https://www.googleapis.com/auth/logging.admin",
                   "https://www.googleapis.com/auth/cloud-platform"]
