@@ -274,9 +274,9 @@ directory.
         $ sudo apt-get update
 
 
-7. Install `pip` on the instance.
+7. Install `pip` and the Python development libraries on the instance.
 
-        $ sudo apt-get install -y python-pip
+        $ sudo apt-get install -y python-pip python-dev
 
 
 8. Install the [Python client library for accessing Google APIs](https://github.com/google/google-api-python-client) on the instance with Python Pip.
