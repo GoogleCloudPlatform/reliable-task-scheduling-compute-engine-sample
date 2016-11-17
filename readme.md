@@ -73,13 +73,9 @@ The overview for configuring and running this sample is as follows:
 * Create a Developers Console project.
     1. In the [Google Developers Console](https://console.developers.google.com/project), select
       **Create Project**.
-    2. In the left navigation list, select **APIs & Auth** > **APIs**, then
-      search for **App Engine Admin API**.
-    3. Select the API name.
-    4. Select **Enable API**.
-    5. Repeat steps 2-5 for the the following Google Cloud Platform APIs.
-        * Google Cloud Pub/Sub
-        * Google Compute Engine
+    2. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
+    3. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
+    4. [Enable Project Billing](https://support.google.com/cloud/answer/6293499#enable-billing)
 
 Ensure that the following is installed if not already on your system:
 
@@ -91,10 +87,6 @@ Ensure that the following is installed if not already on your system:
 
 * [Download and install the Google Cloud SDK](http://cloud.google.com/sdk/).
 
-* Install the Google App Engine SDK for Python on your development machine. You can use
-    the command-line `gcloud` tool provided in the Google Cloud SDK to do this:
-
-        $ gcloud components update gae-python
 
 Important: This tutorial uses several billable components of Google Cloud
 Platform. To estimate the cost of running this sample:
@@ -157,22 +149,20 @@ that you created in **Prerequisites**.
     Where you replace `<your-project-id>`  with the identifier of your cloud
     project.
 
-2. Include the Python API client in your App Engine application.
+1. Include the Python API client in your App Engine application.
 
         $ pip install -t gae/lib/ google-api-python-client
 
     Note: if you get an error and used Homebrew to install Python on OS X,
     see [this fix](https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Homebrew-and-Python.md#note-on-pip-install---user).
 
+1. Create an App Engine App
 
-3. Install the app component of `gcloud`.
+		$ gcloud beta app create
 
-        $ gcloud components update app
+1. Deploy the application to App Engine.
 
-
-4. Deploy the application to App Engine.
-
-        $ gcloud preview app deploy --version=1 gae/app.yaml \
+        $ gcloud app deploy --version=1 gae/app.yaml \
           gae/cron.yaml
 
 After you deploy the App Engine application it uses the App Engine Cron Service

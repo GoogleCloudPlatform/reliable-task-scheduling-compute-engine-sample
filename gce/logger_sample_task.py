@@ -34,3 +34,5 @@ for x in range(20):
     except:
         pass
     time.sleep(.5)
+
+sys.exit(0)
