@@ -34,7 +34,7 @@ def get_client():
     http = httplib2.Http(memcache)
     credentials.authorize(http)
 
-    return discovery.build('pubsub', 'v1beta2', http=http)
+    return discovery.build('pubsub', 'v1', http=http)
 
 
 def get_full_topic_name(name):
