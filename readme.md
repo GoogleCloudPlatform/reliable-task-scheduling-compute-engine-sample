@@ -338,7 +338,7 @@ prevent further billing for them on your account.
     section of the [Developers Console](https://console.developers.google.com).
 
 
-##License:
+## License:
 
 Copyright 2015 Google Inc. All Rights Reserved.
 
