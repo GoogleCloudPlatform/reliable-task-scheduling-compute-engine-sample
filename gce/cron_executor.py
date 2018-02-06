@@ -153,7 +153,7 @@ class Executor():
 
     def extend_lease(self, msg):
         body = {
-            'ackId': msg['ackId'],
+            'ackIds': [msg['ackId']],
             'ackDeadlineSeconds': self.ackdeadline,
         }
         resp = self.client.projects().subscriptions().modifyAckDeadline(
