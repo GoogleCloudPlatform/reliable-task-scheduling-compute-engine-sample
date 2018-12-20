@@ -83,18 +83,15 @@ Ensure that the following is installed if not already on your system:
 
 Important: This tutorial uses several billable components of Google Cloud
 Platform. To estimate the cost of running this sample:
-<ul>
-  <li>Assume the utility runs on a single `f1-micro` Google Compute Instance for
-      15 minutes of one day while you test the sample. After which, you delete
-      the project, releasing all resources.
-      That's <b>0.25 hours per month</b>.</li>
-  <li>Cloud Scheduler is free for up to <b>3 jobs per month</b>.</li>
-</ul>
+
+* Assume the utility runs on a single `f1-micro` Google Compute Instance for
+  15 minutes of one day while you test the sample. After which, you delete
+  the project, releasing all resources.  That's **0.25 hours per month**.
+* Cloud Scheduler is free for up to **3 jobs per month**.
+
 Use the [Google Cloud Platform Pricing Calculator](https://cloud.google.com/products/calculator/#id=beb5326f-90c3-4842-9c3f-a3761b40fbe3)
 to generate a cost estimate based on this projected usage. New Cloud Platform
 users may be eligible for a [free trial](http://cloud.google.com/free-trial).
-
-
 
 ### Clone the sample code
 
@@ -135,7 +132,8 @@ will no longer be necessary after Cloud Scheduler becomes generally available.
 Next, we configure Cloud Scheduler to push a message containing the string `test job` every
 minute to the Pub/Sub topic `test` that we just created.
 
-    gcloud beta scheduler jobs create pubsub test-job --schedule="* * * * *" --topic=test --message-body="test job"
+    gcloud beta scheduler jobs create pubsub test-job --schedule="* * * * *" \
+      --topic=test --message-body="test job"
 
 The `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules).
 
