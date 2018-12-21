@@ -69,6 +69,13 @@ The overview for configuring and running this sample is as follows:
     3. [Enable the App Engine Admin API](https://console.cloud.google.com/flows/enableapi?apiid=appengine&redirect=https://console.cloud.google.com).  This is required by Cloud Scheduler.
     4. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
     5. [Enable Project Billing](https://support.google.com/cloud/answer/6293499#enable-billing)
+    6. Create an App Engine app. This is required by Cloud Scheduler:
+
+           $ gcloud app create --region=us-central
+    
+    7. Enable the Cloud Scheduler API:
+    
+           $ gcloud services enable cloudscheduler.googleapis.com
 
 Ensure that the following is installed if not already on your system:
 
@@ -216,8 +223,7 @@ directory.
 
 4. Copy the utility script files to the new instance.
 
-        $  gcloud compute copy-files gce `whoami`@cronworker: \
-          --zone us-central1-a
+        $  gcloud compute scp --recurse gce cronworker:~/ --zone=us-central1-a
 
 
 5. SSH into the Compute Engine instance. The following steps are run on the instance over the SSH session.
@@ -238,7 +244,7 @@ directory.
 
 8. Install the [Python client library for accessing Google APIs](https://github.com/google/google-api-python-client) on the instance with Python Pip.
 
-        $ sudo pip install --upgrade google-api-python-client pytz
+        $ sudo pip install --upgrade google-api-python-client oauth2client pytz
 
 
 9. Change directories on the instance to the directory where you uploaded the utility script files.
@@ -273,15 +279,15 @@ Viewer for Google Compute Engine.
 1. Open the [Developers Console](https://console.developers.google.com) and select your project from the
     list.
 
-2. From the navigational menu, select **Monitoring > Logs**.
+2. From the navigational menu, select **Stackdriver > Logging > Logs**.
 
-3. Expand the dropdown box displaying **App Engine** and select
-    **Compute Engine**.
+3. Expand the dropdown box displaying **GAE Application** and select
+    **GCE VM Instance > cronworker**.
 
 4. Expand the dropdown box displaying **All Logs**, and select
     **task_runner** to display the logged messages from the executor utility,
     and **test_sample_task_task** to display the output of the sample task running
-    on the Compute Engine instance.
+    on the Compute Engine instance. Click **Ok** to confirm.
 
 You can also see the topic in the Pub/Sub console now lists the subscription.
 
