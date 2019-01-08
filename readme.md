@@ -10,7 +10,7 @@ reliably schedule tasks across a fleet of Compute Engine instances.
 
 This sample illustrates how to build a solution. For a full description of
 the design pattern used in this sample, see
-[Reliably Schedule Tasks on Google Compute Engine](http://cloud.google.com/solutions/reliable-task-scheduling-compute-engine).
+[Reliable Task Scheduling on Compute Engine with Cloud Scheduler](http://cloud.google.com/solutions/reliable-task-scheduling-compute-engine).
 
 ## About the sample
 
@@ -34,7 +34,7 @@ do so, it performs the following actions:
 * Monitors those subscriptions for new messages using a long-polling loop.
 * In response to messages, it runs the corresponding command in a subprocess,
     during which it:
-    * Maintains the the lease on the Cloud Pub/Sub message and extends the lease
+    * Maintains the lease on the Cloud Pub/Sub message and extends the lease
         time on a Cloud Pub/Sub message as needed for long-running commands.
     * Acknowledges and releases the message on exit of the command. The exit
         code is not required to be successful; additional retry logic is left
@@ -136,6 +136,8 @@ minute to the Pub/Sub topic `test` that we just created.
       --topic=test --message-body="test job"
 
 The `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules).
+A `*` in every field means the job runs every minute, every hour, every day of the month,
+every month, every day of the week.  More simply put, it runs once per minute.
 
 The job is now visible in `gcloud beta scheduler jobs list`.  You can also see the jobs 
 in the console:
@@ -307,7 +309,7 @@ prevent further billing for them on your account.
 
 ## License:
 
-Copyright 2018 Google Inc. All Rights Reserved.
+Copyright 2019 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
