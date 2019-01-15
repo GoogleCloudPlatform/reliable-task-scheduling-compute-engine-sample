@@ -4,9 +4,10 @@ In distributed systems, such as a network of Google Compute Engine
 instances, it is challenging to reliably schedule tasks because any individual
 instance may become unavailable due to autoscaling or network partitioning.
 
-Google Cloud Platform provides a managed Cloud Scheduler service. Using this service for scheduling and
-Google Cloud Pub/Sub for distributed messaging, you can build an application to
-reliably schedule tasks across a fleet of Compute Engine instances.
+Google Cloud Platform provides a managed [Cloud Scheduler](https://cloud.google.com/scheduler/)
+service. Using this service for scheduling and Google Cloud Pub/Sub for
+distributed messaging, you can build an application to reliably schedule tasks
+across a fleet of Compute Engine instances.
 
 This sample illustrates how to build a solution. For a full description of
 the design pattern used in this sample, see
@@ -127,7 +128,7 @@ GitHub.
         $ gcloud pubsub topics create test
 
 The topic is now listed under `gcloud pubsub topics list`.  You can also see the topic
-(after about a minute) in the console:
+in the console:
 
 Big Data > Pub/Sub
 
