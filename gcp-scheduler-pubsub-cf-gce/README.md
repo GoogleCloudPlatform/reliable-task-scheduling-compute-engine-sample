@@ -23,9 +23,9 @@ Let’s say you want to start and stop **development** VMs in zone **europe-west
   
 - Update the Cloud Functions above by simply copying the code in `start-instances.js` and `stop-instances.js` respectively. Do not forget to replace the content of `package.json` by the one provided here.  
 
-- Create a Cloud Scheduler job called `Start_VMs_job`. In the payload, you will need to specify the **zone** and a  **label** of instances to start as follow `{"zone":"europe-west1-b", "label":"env=dev"}`. Configure the Cloud Scheduler job's parameter `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
+- Create a Cloud Scheduler job called `Start_VMs_job`. In the payload, you will need to specify the **zone** and a  **label** of instances to start as follows `{"zone":"europe-west1-b", "label":"env=dev"}`. Set Cloud Scheduler job's parameters to `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
 
-- Create another Cloud Scheduler job called `Stop_VMs_job`. Set the parameters as follow: `payload={"zone":"europe-west1-b", "label":"env=dev"}`, `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
+- Create another Cloud Scheduler job called `Stop_VMs_job`. Set the parameters as following: `payload={"zone":"europe-west1-b", "label":"env=dev"}`, `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
 
 - Once one of the job created above is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
 
