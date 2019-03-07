@@ -1,5 +1,5 @@
 
-# High Level Description
+# High-Level Description
 This solution makes use of the following GCP products: 
 - Cloud Scheduler
 - Cloud Pub/Sub
@@ -25,11 +25,13 @@ Let’s say you want to start and stop **development** VMs in zone **europe-west
 
 - Create a Cloud Scheduler job called `Start_VMs_job`. In the payload, you will need to specify the **zone** and a  **label** of instances to start as follow `{"zone":"europe-west1-b", "label":"env=dev"}`. Configure the Cloud Scheduler job's parameter `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
 
-- Create a Cloud Scheduler job called `Start_VMs_job`. In the payload, you will need to specify the **zone** and a  **label** of instances to start as follow `{"zone":"europe-west1-b", "label":"env=dev"}`. Configure the Cloud Scheduler job's parameter `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
+- Create another Cloud Scheduler job called `Stop_VMs_job`. Set the parameters as follow: `payload={"zone":"europe-west1-b", "label":"env=dev"}`, `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
 
-- Once the `Start_VMs_job` is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the Pub/Sub topic `start_dev_vms`.
-- Pub/Sub will then push this message (with its payload) to a Cloud Function called `startInstances()`, which is subscribed to topic ““start_dev_vms”.
-- The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, the CF will iterate and start each VM (green line in Figure 1).
+- Once one of the job created above is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
+
+- Pub/Sub will then push this message (with its payload) to a Cloud Function the associated Cloud Function.
+
+- The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, the CF will iterate and start or stop the VMs.
 
 
 # Important Considerations
