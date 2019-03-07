@@ -11,7 +11,7 @@ This solution will start/stop GCE instances based on Labels.  All VMs which have
 # Benefits
 Using labels offers a lot of flexibility. For example, if you have additional VMs that you would like to start/stop on an existing schedule, then all you need is to apply the same label to them.
 
-The architecture is Figure 1 is very flexible. You can create different schedules for different labels. You can also use different pub/sub topics for different schedules or labels.
+You can create different schedules for different labels. You can also use different pub/sub topics for different schedules or labels.
 
 # How to use this (example)
 Let’s say you want to start and stop **development** VMs in zone **europe-west1-b**. Here are the main steps to follow: 
