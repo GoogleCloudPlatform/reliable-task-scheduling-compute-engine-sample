@@ -76,7 +76,7 @@ The overview for configuring and running this sample is as follows:
     
     7. Enable the Cloud Scheduler API:
     
-           ```$ gcloud services enable cloudscheduler.googleapis.com```
+           $ gcloud services enable cloudscheduler.googleapis.com
 
 Ensure that the following is installed if not already on your system:
 
