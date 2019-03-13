@@ -14,17 +14,18 @@ You can create different schedules for different labels. You can also use differ
 
 ## Tutorial
 
-## Prerequisists 
+## Prerequisits 
 * We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). 
 
 * Make sure the followings APIs activated in your project if they are not yet enabled: 
     1. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
-    2. [Enable the App Engine Admin API](https://console.cloud.google.com/flows/enableapi?apiid=appengine&redirect=https://console.cloud.google.com).  This is required by Cloud Scheduler.
-    3. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
-    4. Create an App Engine app. This is required by Cloud Scheduler:
+    2. [Enable the Cloud Functions API](https://console.cloud.google.com/flows/enableapi?apiid=cloudfunctions&redirect=https://console.cloud.google.com)
+    3. [Enable the App Engine Admin API](https://console.cloud.google.com/flows/enableapi?apiid=appengine&redirect=https://console.cloud.google.com).  This is required by Cloud Scheduler.
+    4. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
+    5. Create an App Engine app. This is required by Cloud Scheduler:
 
            $ gcloud app create --region=us-central
-    5. Enable the Cloud Scheduler API:
+    6. Enable the Cloud Scheduler API:
     
            $ gcloud services enable cloudscheduler.googleapis.com
 
@@ -40,9 +41,9 @@ Ensure that the following is installed if not already on your system:
 
 
 Important: This tutorial uses several billable components of Google Cloud
-Platform. To estimate the cost of running this sample:
+Platform. Make sure to delete the resources once you have finished this tutorials
            
-# Tutorial
+## Step by Step
 Let’s say you want to start and stop **development** VMs in zone **europe-west1-b**. Here are the main steps to follow: 
 - Set default project 
 - Create two Pub/Sub topic called `start_dev_vms` and `stop_dev_vms`.
