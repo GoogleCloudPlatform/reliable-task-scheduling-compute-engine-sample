@@ -15,9 +15,9 @@ You can create different schedules for different labels. You can also use differ
 ## Tutorial
 
 ## Prerequisists 
-We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). 
+* We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). 
 
-Make sure the followings APIs activated in your project if they are not yet enabled: 
+* Make sure the followings APIs activated in your project if they are not yet enabled: 
     1. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
     2. [Enable the App Engine Admin API](https://console.cloud.google.com/flows/enableapi?apiid=appengine&redirect=https://console.cloud.google.com).  This is required by Cloud Scheduler.
     3. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
