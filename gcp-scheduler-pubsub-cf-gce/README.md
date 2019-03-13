@@ -82,11 +82,15 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
               --topic=start_dev_vms --message-body='{"zone":"us-central1-c", "label":"env=dev"}' 
       ```
         
-1. Create a Cloud Scheduler job called `Stop_VMs_job`. Once triggered, this job will push a message with payload `payload={"zone":"us-central1-c", "label":"env=dev"}` in order to stop VMs with label `env:dev`, every workday at 9:30 o'clock (UTC).
+2. Create a Cloud Scheduler job called `Stop_VMs_job`. Once triggered, this job will push a message with payload `payload={"zone":"us-central1-c", "label":"env=dev"}` in order to stop VMs with label `env:dev`, every workday at 9:30 o'clock (UTC).
+     
+     ``` 
+      gcloud beta scheduler jobs create pubsub Stop_VMs_job --schedule="30 9 * * 1-5" \
+              --topic=stop_dev_vms --message-body='{"zone":"us-central1-c", "label":"env=dev"}' 
+      ```
+3. Check that the two jobs above have been created `gcloud beta scheduler jobs list`.
 
-        $ gcloud pubsub topics create start_dev_vms
-        
-2. Create a Cloud Scheduler job called `Stop_VMs_job`
+**Note**: the `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). Moreover, you can choose another time zone by making use of the attribbute `time-zone`, see [here](https://cloud.google.com/sdk/gcloud/reference/alpha/scheduler/jobs/create/pubsub) for more information.
 
 - Create two cloud functions: 
   - `Name= startInstances`, `Trigger = Pub/Sub` and `Topic=start_dev_vms`.
