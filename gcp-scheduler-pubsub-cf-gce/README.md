@@ -8,13 +8,21 @@ This solution makes use of the following GCP products:
 
 This solution will start/stop GCE instances based on Labels.  All VMs which have same label can be started/stopped on schedule using Cloud Scheduler.
 
-# Benefits
 Using labels offers a lot of flexibility. For example, if you have additional VMs that you would like to start/stop on an existing schedule, then all you need is to apply the same label to them.
 
 You can create different schedules for different labels. You can also use different pub/sub topics for different schedules or labels.
 
-# How to use this (example)
+# Prerequisists 
+We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled] (https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). Moreover, we suppose that you have the followings APIs activated in your project: 
+- Compute Engine API
+- App Engine API
+- Pub/Sub API
+- etc
+
+
+# Tutorial
 Let’s say you want to start and stop **development** VMs in zone **europe-west1-b**. Here are the main steps to follow: 
+- Set default project 
 - Create two Pub/Sub topic called `start_dev_vms` and `stop_dev_vms`.
 
 - Create two cloud functions: 
