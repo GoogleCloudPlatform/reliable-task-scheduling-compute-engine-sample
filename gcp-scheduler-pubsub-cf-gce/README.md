@@ -77,8 +77,9 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
 
 1. Create a Cloud Scheduler job called `Start_VMs_job`. Once triggered, this job will push a message with payload `payload={"zone":"us-central1-c", "label":"env=dev"}` in order to start VMs with label `env:dev`, every workday at 9:00 o'clock (UTC).
 
-     ```gcloud beta scheduler jobs create pubsub Start_VMs_job --schedule="0 9 * * 1-5" \
-      --topic=start_dev_vms --message-body='{"zone":"us-central1-c", "label":"env=dev"}' 
+     ``` 
+      gcloud beta scheduler jobs create pubsub Start_VMs_job --schedule="0 9 * * 1-5" \
+              --topic=start_dev_vms --message-body='{"zone":"us-central1-c", "label":"env=dev"}' 
       ```
         
 1. Create a Cloud Scheduler job called `Stop_VMs_job`. Once triggered, this job will push a message with payload `payload={"zone":"us-central1-c", "label":"env=dev"}` in order to stop VMs with label `env:dev`, every workday at 9:30 o'clock (UTC).
