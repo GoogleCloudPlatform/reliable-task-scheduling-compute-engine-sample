@@ -21,10 +21,10 @@ You can create different schedules for different labels. You can also use differ
     1. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
     2. [Enable the App Engine Admin API](https://console.cloud.google.com/flows/enableapi?apiid=appengine&redirect=https://console.cloud.google.com).  This is required by Cloud Scheduler.
     3. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
-  4.Create an App Engine app. This is required by Cloud Scheduler:
+    4. Create an App Engine app. This is required by Cloud Scheduler:
 
            $ gcloud app create --region=us-central
-   5.Enable the Cloud Scheduler API:
+     5. Enable the Cloud Scheduler API:
     
            $ gcloud services enable cloudscheduler.googleapis.com
 
