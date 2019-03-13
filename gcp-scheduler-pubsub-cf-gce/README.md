@@ -13,7 +13,7 @@ Using labels offers a lot of flexibility. For example, if you have additional VM
 You can create different schedules for different labels. You can also use different pub/sub topics for different schedules or labels.
 
 # Prerequisists 
-We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled] (https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). Moreover, we suppose that you have the followings APIs activated in your project: 
+We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). Moreover, we suppose that you have the followings APIs activated in your project: 
 - Compute Engine API
 - App Engine API
 - Pub/Sub API
