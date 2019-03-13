@@ -90,7 +90,7 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
       ```
 3. Check that the two jobs above have been created `gcloud beta scheduler jobs list`.
 
-**Note**: the `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). Moreover, you can choose another time zone by making use of the attribbute `time-zone`, see [here](https://cloud.google.com/sdk/gcloud/reference/alpha/scheduler/jobs/create/pubsub) for more information.
+**Note**: the `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). Moreover, you can choose another time zone by making use of the attribute `time-zone`, see [here](https://cloud.google.com/sdk/gcloud/reference/alpha/scheduler/jobs/create/pubsub) for more information.
 
 - Create two cloud functions: 
   - `Name= startInstances`, `Trigger = Pub/Sub` and `Topic=start_dev_vms`.
