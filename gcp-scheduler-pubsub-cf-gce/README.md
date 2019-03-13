@@ -24,9 +24,23 @@ You can create different schedules for different labels. You can also use differ
     4. Create an App Engine app. This is required by Cloud Scheduler:
 
            $ gcloud app create --region=us-central
-     5. Enable the Cloud Scheduler API:
-     
-           ```$ gcloud services enable cloudscheduler.googleapis.com```
+    5. Enable the Cloud Scheduler API:
+    
+           $ gcloud services enable cloudscheduler.googleapis.com
+
+Ensure that the following is installed if not already on your system:
+
+* Install [`git`](https://git-scm.com/downloads).
+
+* Install [Python 2.7](https://www.python.org/download/releases/2.7/).
+
+* Install [Python `pip`](https://pip.pypa.io/en/latest/installing.html).
+
+* [Download and install the Google Cloud SDK](http://cloud.google.com/sdk/).
+
+
+Important: This tutorial uses several billable components of Google Cloud
+Platform. To estimate the cost of running this sample:
            
 # Tutorial
 Let’s say you want to start and stop **development** VMs in zone **europe-west1-b**. Here are the main steps to follow: 
