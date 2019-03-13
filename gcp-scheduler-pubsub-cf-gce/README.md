@@ -25,9 +25,9 @@ You can create different schedules for different labels. You can also use differ
 
            $ gcloud app create --region=us-central
      5. Enable the Cloud Scheduler API:
-    
-           $ gcloud services enable cloudscheduler.googleapis.com
-
+     
+           ```$ gcloud services enable cloudscheduler.googleapis.com```
+           
 # Tutorial
 Let’s say you want to start and stop **development** VMs in zone **europe-west1-b**. Here are the main steps to follow: 
 - Set default project 
