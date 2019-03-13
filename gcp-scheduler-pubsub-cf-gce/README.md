@@ -54,24 +54,38 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
     Where you replace `<your-project-id>`  with the identifier of your cloud
     project.
 
-1.  Create two `f1-micro` Compute Engine instances (`my-instance1` and `my-instance2`), with the label `env:dev`:
+2. Create two `f1-micro` Compute Engine instances (`my-instance1` and `my-instance2`), with the label `env:dev`:
 
         $ gcloud compute instances create my-instance1 --zone=us-central1-c --machine-type=f1-micro --labels=env=dev
         $ gcloud compute instances create my-instance2 --zone=us-central1-c --machine-type=f1-micro --labels=env=dev
 
-Check that your instances are up and running by using `gcloud compute instances list`.
+3. Check that your instances are up and running by using `gcloud compute instances list`.
 
 ### Create two Pub/Sub topics
 
-Create two Pub/Sub topics `start_dev_vms` and `stop_dev_vms` that messages will get pushed to.
+1. Create a Pub/Sub topic `start_dev_vms` that messages will get pushed to in orde to start VMs.
 
         $ gcloud pubsub topics create start_dev_vms
+        
+2. Create a Pub/Sub topics `stop_dev_vms`that messages will get pushed to in order to stops VMS.
+
         $ gcloud pubsub topics create stop_dev_vms
 
-Check that the topics are created by using this command `gcloud pubsub topics list`.
+3. Check that the topics are created by using this command `gcloud pubsub topics list`.
 
-- Set default project 
-- Create two Pub/Sub topic called `start_dev_vms` and `stop_dev_vms`.
+### Create two Cloud Scheduler jobs
+
+1. Create a Cloud Scheduler job called `Start_VMs_job`. Once triggered, this job will push a message with payload `payload={"zone":"us-central1-c", "label":"env=dev"}` in order to start VMs with label `env:dev`, every workday at 9:00 o'clock (UTC).
+
+     ```gcloud beta scheduler jobs create pubsub Start_VMs_job --schedule="0 9 * * 1-5" \
+      --topic=start_dev_vms --message-body='{"zone":"us-central1-c", "label":"env=dev"}' 
+      ```
+        
+1. Create a Cloud Scheduler job called `Stop_VMs_job`. Once triggered, this job will push a message with payload `payload={"zone":"us-central1-c", "label":"env=dev"}` in order to stop VMs with label `env:dev`, every workday at 9:30 o'clock (UTC).
+
+        $ gcloud pubsub topics create start_dev_vms
+        
+2. Create a Cloud Scheduler job called `Stop_VMs_job`
 
 - Create two cloud functions: 
   - `Name= startInstances`, `Trigger = Pub/Sub` and `Topic=start_dev_vms`.
