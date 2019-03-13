@@ -41,10 +41,35 @@ Ensure that the following is installed if not already on your system:
 
 
 Important: This tutorial uses several billable components of Google Cloud
-Platform. Make sure to delete the resources once you have finished this tutorials
+Platform. Make sure to delete the resources once you have finished this tutorial.
            
 ## Step by Step
-Let’s say you want to start and stop **development** VMs in zone **europe-west1-b**. Here are the main steps to follow: 
+Let’s say you want to start and stop **development** VMs in zone **us-central1-c**. Below are the main steps to follow. 
+### Create two Compute Engine instances
+
+1. Configure the `gcloud` command-line tool to use your project as a default.
+
+        $ gcloud config set project <your-project-id>
+
+    Where you replace `<your-project-id>`  with the identifier of your cloud
+    project.
+
+1.  Create two `f1-micro` Compute Engine instances (`my-instance1` and `my-instance2`), with the label `env:dev`:
+
+        $ gcloud compute instances create my-instance1 --zone=us-central1-c --machine-type=f1-micro --labels=env=dev
+        $ gcloud compute instances create my-instance2 --zone=us-central1-c --machine-type=f1-micro --labels=env=dev
+
+Check that your instances are up and running by using `gcloud compute instances list`.
+
+### Create two Pub/Sub topics
+
+Create two Pub/Sub topics `start_dev_vms` and `stop_dev_vms` that messages will get pushed to.
+
+        $ gcloud pubsub topics create start_dev_vms
+        $ gcloud pubsub topics create stop_dev_vms
+
+Check that the topics are created by using this command `gcloud pubsub topics list`.
+
 - Set default project 
 - Create two Pub/Sub topic called `start_dev_vms` and `stop_dev_vms`.
 
