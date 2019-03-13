@@ -6,7 +6,7 @@ This solution makes use of the following GCP products:
 - Cloud Functions
 - Compute Engine
 
-This solution will start/stop GCE instances based on Labels.  All VMs which have same label can be started/stopped on schedule using Cloud Scheduler.
+This solution will start/stop GCE instances based on **Labels**. All VMs which have same label (within a specific zone) can be started/stopped on schedule using Cloud Scheduler.
 
 Using labels offers a lot of flexibility. For example, if you have additional VMs that you would like to start/stop on an existing schedule, then all you need is to apply the same label to them.
 
@@ -40,8 +40,7 @@ Ensure that the following is installed if not already on your system:
 * [Download and install the Google Cloud SDK](http://cloud.google.com/sdk/).
 
 
-Important: This tutorial uses several billable components of Google Cloud
-Platform. Make sure to delete the resources once you have finished this tutorial.
+**Important**: This tutorial uses several billable components of Google Cloud Platform. Make sure to delete the resources once you have finished this tutorial.
            
 ## Step by Step
 Let’s say you want to start and stop **development** VMs in zone **us-central1-c**. Below are the main steps to follow. 
@@ -91,6 +90,20 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
 3. Check that the two jobs above have been created `gcloud beta scheduler jobs list`.
 
 **Note**: the `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). Moreover, you can choose another time zone by making use of the attribute `time-zone`, see [here](https://cloud.google.com/sdk/gcloud/reference/alpha/scheduler/jobs/create/pubsub) for more information.
+
+### Create two Cloud Scheduler jobs
+
+1. Download this repository to your local machine or into your [Cloud Shell console](https://cloud.google.com/shell/) by running this command:
+
+    ``` 
+    $ git clone https://github.com/GoogleCloudPlatform/reliable-task-scheduling-compute-engine-sample
+    ``` 
+
+2. Change directories to the `reliable-task-scheduling-compute-engine-sample` directory. The exact path
+depends on where you placed the directory when you cloned the sample files from
+GitHub.
+
+    $ cd reliable-task-scheduling-compute-engine-sample/gcp-scheduler-pubsub-cf-gce
 
 - Create two cloud functions: 
   - `Name= startInstances`, `Trigger = Pub/Sub` and `Topic=start_dev_vms`.
