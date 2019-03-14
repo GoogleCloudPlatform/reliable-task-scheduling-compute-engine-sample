@@ -23,12 +23,12 @@ You can create different schedules for different labels. You can also use differ
 ## Prerequisites 
 * We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). 
 
-* Make sure the followings APIs activated in your project if they are not yet enabled: 
+* Make sure the followings APIs activated in your project (if they are not yet enabled): 
     1. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
     2. [Enable the Cloud Functions API](https://console.cloud.google.com/flows/enableapi?apiid=cloudfunctions&redirect=https://console.cloud.google.com)
     3. [Enable the App Engine Admin API](https://console.cloud.google.com/flows/enableapi?apiid=appengine&redirect=https://console.cloud.google.com).  This is required by Cloud Scheduler.
     4. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
-    5. Create an App Engine app. This is required by Cloud Scheduler:
+    5. Create an App Engine app (if you do not already have one in place). This is required by Cloud Scheduler:
 
            $ gcloud app create --region=us-central1
     6. Enable the Cloud Scheduler API:
@@ -95,7 +95,12 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
       gcloud beta scheduler jobs create pubsub Stop_VMs_job --schedule="30 9 * * 1-5" \
               --topic=stop_dev_vms --message-body='{"zone":"us-central1-c", "label":"env=dev"}' 
       ```
-3. Check that the two jobs above have been created `gcloud beta scheduler jobs list`.
+3. Check that the two jobs above are created by running this command:
+
+     ``` 
+      gcloud beta scheduler jobs list`
+      
+      ```
 
 **Note**: the `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). Moreover, you can choose another time zone by making use of the attribute `time-zone`, see [here](https://cloud.google.com/sdk/gcloud/reference/alpha/scheduler/jobs/create/pubsub) for more information.
 
@@ -114,7 +119,7 @@ GitHub.
     ```
     $ cd reliable-task-scheduling-compute-engine-sample/gcp-scheduler-pubsub-cf-gce
     ``` 
-3. ** Create a first cloud function **start-instances-fct** which will start instances once it is triggered.
+3. Create a first cloud function **start-instances-fct**  which will start instances once it is triggered.
     - Change directory to the folder containing the source code of the function:
     
         ```
@@ -127,8 +132,8 @@ GitHub.
                 --runtime=nodejs8 --trigger-topic=start_dev_vms
         ```
     
-4. Create a second cloud function **stop-instances-fct** which will stop instances once it is triggered : 
-    - - Change directory to the folder conraining the source code of the function:
+4. Create another cloud function **stop-instances-fct**  which will stop instances once it is triggered : 
+    - Change directory to the folder conraining the source code of the function:
     
         ```
             cd stop-instances-fct/
@@ -141,20 +146,26 @@ GitHub.
         ```
 ### Testing 
 
-1.  Now that you have created all needed resources it is time for testing. You can do this from the Google Cloud Console under "Cloud Scheduler" ad then identify your **Start_VMs_job** cron job and click on "Run now". This will start the two VMs created earlier. Alternatively, you can simply run the following comand: 
+1.  Now that you have created all needed resources it is time for testing. You can do this from the Google Cloud Console or by using gcloud commands. In the UI, navigate to "Cloud Scheduler", identify your **Start_VMs_job** cron job and click on "Run now". This will start the two VMs created earlier. Alternatively, you can simply run the following comand: 
 
         ```
             gcloud beta scheduler jobs run Start_VMs_job
         ```
 
-2.  Navigate to "Compute Engine" section in the UI and check if the VMs have been started. 
+2.  Navigate to "Compute Engine" section in the UI and check if the VMs have been started. Or simply run the following command and check the status of your instances (allow few seconds delay). 
+       ```
+            gcloud compute instances list
+        ```
 3.  Navigate back to Cloud Scheduler, find your cron job **Start_VMs_job** and click on "Run now". Or simply run the following command: 
 
         ```
             gcloud beta scheduler jobs run Stop_VMs_job
         ```
 
-4.  Navigate Back "Compute Engine" section in the UI and check if the VMs are stopped.
+4.  Navigate Back "Compute Engine" section in the UI and check if the VMs are stopped (allow few seconds delay). Or simply run the following command and check the status of your instances. 
+       ```
+            gcloud compute instances list
+        ```
 
 ### Clean Up
 
