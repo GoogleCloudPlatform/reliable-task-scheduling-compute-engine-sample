@@ -135,10 +135,10 @@ GitHub.
         ```
     - Create the Cloud Function as following:
 
-    ```
-        gcloud functions deploy stop-instances-fct --region=us-central1 --entry-point=stopInstances \
-            --runtime=nodejs8 --trigger-topic=stop_dev_vms
-    ```
+        ```
+            gcloud functions deploy stop-instances-fct --region=us-central1 --entry-point=stopInstances \
+                --runtime=nodejs8 --trigger-topic=stop_dev_vms
+        ```
 ### Testing 
 
 1.  Now that you have created all needed resources it is time for testing. You can do this from the Google Cloud Console under "Cloud Scheduler" ad then identify your **Start_VMs_job** cron job and click on "Run now". This will start the two VMs created earlier. Alternatively, you can simply run the following comand: 
