@@ -20,8 +20,6 @@ You can create different schedules for different labels. You can also use differ
 
 - The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, it will iterate and start or stop the VMs one after another.
 
-# Tutorial
-
 ## Prerequisites 
 * We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). 
 
@@ -50,7 +48,7 @@ Ensure that the following is installed if not already on your system:
 
 **Important**: This tutorial uses several billable components of Google Cloud Platform. Make sure to delete the resources once you have finished this tutorial.
            
-## Step by Step
+## Tutorial
 Let’s say you want to start and stop **development** VMs in zone **us-central1-c**. Below are the main steps to follow. 
 ### Create two Compute Engine instances
 
