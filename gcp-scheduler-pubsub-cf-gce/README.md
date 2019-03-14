@@ -6,23 +6,23 @@ This solution makes use of the following GCP products:
 - Cloud Functions
 - Compute Engine
 
-This solution will start/stop GCE instances based on **Labels**. All VMs which have same label (within a specific zone) can be started/stopped on schedule using Cloud Scheduler.
+This solution will start/stop GCE instances based on **Labels**. All VMs which have the same label (within a specific zone) can be started/stopped on schedule using Cloud Scheduler.
 
 Using labels offers a lot of flexibility. For example, if you have additional VMs that you would like to start/stop on an existing schedule, then all you need is to apply the same label to them.
 
 You can create different schedules for different labels. You can also use different pub/sub topics for different schedules or labels.
 
-# How does it work ? (high-level)
+# How does it work? (high-level)
 
-- Once a your Cloud Scheduler cron is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
+- Once your Cloud Scheduler cron is triggered, it will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
 
 - Pub/Sub will then push this message (with its payload) to a Cloud Function.
 
 - The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, it will iterate and start or stop the VMs one after another.
 
-## Tutorial
+# Tutorial
 
-## Prerequisits 
+## Prerequisites 
 * We suppose that you have a created a  [GCP project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) and that you have [billing enabled](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project). 
 
 * Make sure the followings APIs activated in your project if they are not yet enabled: 
@@ -68,17 +68,19 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
 
 3. Check that your instances are up and running by using `gcloud compute instances list`.
 
+
 ### Create two Pub/Sub topics
 
-1. Create a Pub/Sub topic `start_dev_vms` that messages will get pushed to in orde to start VMs.
+1. Create a Pub/Sub topic `start_dev_vms` that messages will get pushed to in order to start VMs.
 
         $ gcloud pubsub topics create start_dev_vms
         
-2. Create a Pub/Sub topics `stop_dev_vms`that messages will get pushed to in order to stops VMS.
+2. Create a Pub/Sub topics `stop_dev_vms` that messages will get pushed to in order to stop VMS.
 
         $ gcloud pubsub topics create stop_dev_vms
 
 3. Check that the topics are created by using this command `gcloud pubsub topics list`.
+
 
 ### Create two Cloud Scheduler jobs
 
@@ -115,7 +117,7 @@ GitHub.
     $ cd reliable-task-scheduling-compute-engine-sample/gcp-scheduler-pubsub-cf-gce
     ``` 
 3. ** Create a first cloud function **start-instances-fct** which will start instances once it is triggered.
-    - Change directory to the folder conraining the source code:
+    - Change directory to the folder containing the source code of the function:
     
         ```
             cd start-instances-fct/
@@ -128,7 +130,7 @@ GitHub.
         ```
     
 4. Create a second cloud function **stop-instances-fct** which will stop instances once it is triggered : 
-    - - Change directory to the folder conraining the source code:
+    - - Change directory to the folder conraining the source code of the function:
     
         ```
             cd stop-instances-fct/
@@ -154,10 +156,14 @@ GitHub.
             gcloud beta scheduler jobs run Stop_VMs_job
         ```
 
-4.  Navigate Back "Compute Engine" section in the UI and check if the VMs are shutdown.
+4.  Navigate Back "Compute Engine" section in the UI and check if the VMs are stopped.
+
+### Clean Up
+
+In order to avoid unexpected costs, you need to **delete** all GCP resources created in this tutorial.
 
 
 # Important Considerations
 - This solution does only switch off VMs, without caring which applications are running inside. You can use shutdown scripts if you wish to perform some tasks before the VM is shutdown.
 - Keep in mind the time limits of  cloud functions. 
-- If a VM is cloned, labels are also copied with it. This may lead to some undesired side effects, where the cloned VM is also started and stopped on a schedule because they are have the same label.
+- If a VM is cloned, labels are also copied with it. This may lead to some undesired side effects, where the cloned VM is also started and stopped on a schedule because they have the same label.
