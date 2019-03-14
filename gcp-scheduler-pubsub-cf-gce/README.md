@@ -14,11 +14,11 @@ You can create different schedules for different labels. You can also use differ
 
 # How does it work ? (high-level)
 
-- Once one of the job created above is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
+- Once a your Cloud Scheduler cron is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
 
-- Pub/Sub will then push this message (with its payload) to a Cloud Function the associated Cloud Function.
+- Pub/Sub will then push this message (with its payload) to a Cloud Function.
 
-- The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, the CF will iterate and start or stop the VMs.
+- The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, it will iterate and start or stop the VMs one after another.
 
 ## Tutorial
 
@@ -114,21 +114,21 @@ GitHub.
     ```
     $ cd reliable-task-scheduling-compute-engine-sample/gcp-scheduler-pubsub-cf-gce
     ``` 
-3. ** Create a first cloud function `start-instances-fct` which will start instances once it is triggered.
-    - Change directory 
+3. ** Create a first cloud function **start-instances-fct** which will start instances once it is triggered.
+    - Change directory to the folder conraining the source code:
     
         ```
             cd start-instances-fct/
         ```
-    - Create the Cloud Function as following:
+    - Create the Cloud Function using the command below :
 
         ```
             gcloud functions deploy start-instances-fct --region=us-central1 --entry-point=startInstances \
                 --runtime=nodejs8 --trigger-topic=start_dev_vms
         ```
     
-4. Create a second cloud function `stop-instances-fct ` which will stop instances once it is triggered : 
-    - Change directory 
+4. Create a second cloud function **stop-instances-fct** which will stop instances once it is triggered : 
+    - - Change directory to the folder conraining the source code:
     
         ```
             cd stop-instances-fct/
@@ -139,6 +139,23 @@ GitHub.
         gcloud functions deploy stop-instances-fct --region=us-central1 --entry-point=stopInstances \
             --runtime=nodejs8 --trigger-topic=stop_dev_vms
     ```
+### Testing 
+
+1.  Now that you have created all needed resources it is time for testing. You can do this from the Google Cloud Console under "Cloud Scheduler" ad then identify your **Start_VMs_job** cron job and click on "Run now". This will start the two VMs created earlier. Alternatively, you can simply run the following comand: 
+
+        ```
+            gcloud beta scheduler jobs run Start_VMs_job
+        ```
+
+2.  Navigate to "Compute Engine" section in the UI and check if the VMs have been started. 
+3.  Navigate back to Cloud Scheduler, find your cron job **Start_VMs_job** and click on "Run now". Or simply run the following command: 
+
+        ```
+            gcloud beta scheduler jobs run Stop_VMs_job
+        ```
+
+4.  Navigate Back "Compute Engine" section in the UI and check if the VMs are shutdown.
+
 
 # Important Considerations
 - This solution does only switch off VMs, without caring which applications are running inside. You can use shutdown scripts if you wish to perform some tasks before the VM is shutdown.
