@@ -12,6 +12,14 @@ Using labels offers a lot of flexibility. For example, if you have additional VM
 
 You can create different schedules for different labels. You can also use different pub/sub topics for different schedules or labels.
 
+# How does it work ? (high-level)
+
+- Once one of the job created above is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
+
+- Pub/Sub will then push this message (with its payload) to a Cloud Function the associated Cloud Function.
+
+- The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, the CF will iterate and start or stop the VMs.
+
 ## Tutorial
 
 ## Prerequisits 
@@ -24,7 +32,7 @@ You can create different schedules for different labels. You can also use differ
     4. Visit the [Compute Engine instances](https://console.cloud.google.com/compute/instances) page, this will activate the API.
     5. Create an App Engine app. This is required by Cloud Scheduler:
 
-           $ gcloud app create --region=us-central
+           $ gcloud app create --region=us-central1
     6. Enable the Cloud Scheduler API:
     
            $ gcloud services enable cloudscheduler.googleapis.com
@@ -91,7 +99,7 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
 
 **Note**: the `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). Moreover, you can choose another time zone by making use of the attribute `time-zone`, see [here](https://cloud.google.com/sdk/gcloud/reference/alpha/scheduler/jobs/create/pubsub) for more information.
 
-### Create two Cloud Scheduler jobs
+### Create two Cloud Functions
 
 1. Download this repository to your local machine or into your [Cloud Shell console](https://cloud.google.com/shell/) by running this command:
 
@@ -99,28 +107,38 @@ Let’s say you want to start and stop **development** VMs in zone **us-central1
     $ git clone https://github.com/GoogleCloudPlatform/reliable-task-scheduling-compute-engine-sample
     ``` 
 
-2. Change directories to the `reliable-task-scheduling-compute-engine-sample` directory. The exact path
+2. Change directories to the `reliable-task-scheduling-compute-engine-sample/gcp-scheduler-pubsub-cf-gce` directory. The exact path
 depends on where you placed the directory when you cloned the sample files from
 GitHub.
 
+    ```
     $ cd reliable-task-scheduling-compute-engine-sample/gcp-scheduler-pubsub-cf-gce
+    ``` 
+3. ** Create a first cloud function `start-instances-fct` which will start instances once it is triggered.
+    - Change directory 
+    
+        ```
+            cd start-instances-fct/
+        ```
+    - Create the Cloud Function as following:
 
-- Create two cloud functions: 
-  - `Name= startInstances`, `Trigger = Pub/Sub` and `Topic=start_dev_vms`.
-  - `Name= stopInstances`, `Trigger = Pub/Sub` and `Topic=stop_dev_vms`.
-  
-- Update the Cloud Functions above by simply copying the code in `start-instances.js` and `stop-instances.js` respectively. Do not forget to replace the content of `package.json` by the one provided here.  
+        ```
+            gcloud functions deploy start-instances-fct --region=us-central1 --entry-point=startInstances \
+                --runtime=nodejs8 --trigger-topic=start_dev_vms
+        ```
+    
+4. Create a second cloud function `stop-instances-fct ` which will stop instances once it is triggered : 
+    - Change directory 
+    
+        ```
+            cd stop-instances-fct/
+        ```
+    - Create the Cloud Function as following:
 
-- Create a Cloud Scheduler job called `Start_VMs_job`. In the payload, you will need to specify the **zone** and a  **label** of instances to start as follows `{"zone":"europe-west1-b", "label":"env=dev"}`. Set Cloud Scheduler job's parameters to `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
-
-- Create another Cloud Scheduler job called `Stop_VMs_job`. Set the parameters as following: `payload={"zone":"europe-west1-b", "label":"env=dev"}`, `Target**=Pub/Sub` and `Topic= start_dev_vms`. 
-
-- Once one of the job created above is triggered, Cloud Scheduler will push a message (with a payload containing zone & label) to the corresponding Pub/Sub topic.
-
-- Pub/Sub will then push this message (with its payload) to a Cloud Function the associated Cloud Function.
-
-- The Cloud Function will use the Compute Engine API to query and filter the list of instances using the zone & label specified in the Pub/Sub message. After that, the CF will iterate and start or stop the VMs.
-
+    ```
+        gcloud functions deploy stop-instances-fct --region=us-central1 --entry-point=stopInstances \
+            --runtime=nodejs8 --trigger-topic=stop_dev_vms
+    ```
 
 # Important Considerations
 - This solution does only switch off VMs, without caring which applications are running inside. You can use shutdown scripts if you wish to perform some tasks before the VM is shutdown.
