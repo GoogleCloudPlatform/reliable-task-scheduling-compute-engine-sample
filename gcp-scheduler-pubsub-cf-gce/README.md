@@ -148,24 +148,24 @@ GitHub.
 
 1.  Now that you have created all needed resources it is time for testing. You can do this from the Google Cloud Console or by using gcloud commands. In the UI, navigate to "Cloud Scheduler", identify your **Start_VMs_job** cron job and click on "Run now". This will start the two VMs created earlier. Alternatively, you can simply run the following comand: 
 
-        ```
+     
             gcloud beta scheduler jobs run Start_VMs_job
-        ```
+      
 
 2.  Navigate to "Compute Engine" section in the UI and check if the VMs have been started. Or simply run the following command and check the status of your instances (allow few seconds delay). 
-       ```
+     
             gcloud compute instances list
-        ```
+     
 3.  Navigate back to Cloud Scheduler, find your cron job **Start_VMs_job** and click on "Run now". Or simply run the following command: 
 
-        ```
+      
             gcloud beta scheduler jobs run Stop_VMs_job
-        ```
+      
 
 4.  Navigate Back "Compute Engine" section in the UI and check if the VMs are stopped (allow few seconds delay). Or simply run the following command and check the status of your instances. 
-       ```
+       
             gcloud compute instances list
-        ```
+    
 
 ### Clean Up
 
