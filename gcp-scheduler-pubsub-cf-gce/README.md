@@ -156,7 +156,7 @@ GitHub.
      
             gcloud compute instances list
      
-3.  Navigate back to Cloud Scheduler, find your cron job **Start_VMs_job** and click on "Run now". Or simply run the following command: 
+3.  Navigate back to Cloud Scheduler, find your cron job **Stop_VMs_job** and click on "Run now". Or simply run the following command: 
 
       
             gcloud beta scheduler jobs run Stop_VMs_job
