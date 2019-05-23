@@ -13,7 +13,7 @@ This sample illustrates how to build a solution. For a full description of
 the design pattern used in this sample, see
 [Reliable Task Scheduling on Compute Engine with Cloud Scheduler](http://cloud.google.com/solutions/reliable-task-scheduling-compute-engine).
 
-For an example of how to start and stop VMs, see [Sample: Use Cloud Scheduler and VM labels to start and stop VMs on schedule](gcp-scheduler-pubsub-cf-gce).
+For an example of how to start and stop VMs, see [Scheduling Compute Instances with Cloud Scheduler](https://cloud.google.com/scheduler/docs/start-and-stop-compute-engine-instances-on-a-schedule).
 
 ## About the sample
 
