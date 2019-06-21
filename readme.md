@@ -142,7 +142,7 @@ will no longer be necessary after Cloud Scheduler becomes generally available.
 Next, we configure Cloud Scheduler to push a message containing the string `test job` every
 minute to the Pub/Sub topic `test` that we just created.
 
-    gcloud beta scheduler jobs create pubsub test-job --schedule="* * * * *" \
+    gcloud scheduler jobs create pubsub test-job --schedule="* * * * *" \
       --topic=test --message-body="test job"
 
 The `schedule` is specified in [unix-cron format](https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules).
