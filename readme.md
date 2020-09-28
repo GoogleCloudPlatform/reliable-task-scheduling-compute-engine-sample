@@ -136,9 +136,6 @@ Big Data > Pub/Sub
 
 ### Create Cloud Scheduler job
 
-> **Note**: At time of writing Cloud Scheduler is in Beta.  The keyword `beta` in the commands below
-will no longer be necessary after Cloud Scheduler becomes generally available.
-
 Next, we configure Cloud Scheduler to push a message containing the string `test job` every
 minute to the Pub/Sub topic `test` that we just created.
 
@@ -149,7 +146,7 @@ The `schedule` is specified in [unix-cron format](https://cloud.google.com/sched
 A `*` in every field means the job runs every minute, every hour, every day of the month,
 every month, every day of the week.  More simply put, it runs once per minute.
 
-The job is now visible in `gcloud beta scheduler jobs list`.  You can also see the jobs 
+The job is now visible in `gcloud scheduler jobs list`.  You can also see the jobs 
 in the console:
 
 Tools > Cloud Scheduler 
